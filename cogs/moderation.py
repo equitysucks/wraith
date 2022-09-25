@@ -1,3 +1,4 @@
+from pickle import FALSE
 import discord
 from discord.ext import commands
 import random
@@ -8,7 +9,7 @@ import aiohttp
 import asyncio
 
 color = 0x2f3136
-success = 0xA4FF00
+success = 0x44F16A
 error = 0xFF1A1A
 
 mongoClient = pymongo.MongoClient('mongodb+srv://sinful:khaleed111@cluster0.i8qcd.mongodb.net/?retryWrites=true&w=majority')
@@ -112,6 +113,7 @@ class moderation(commands.Cog):
 
 
     @commands.command()
+    @commands.has_permissions(manage_messages=True)
     @commands.cooldown(1,15, commands.BucketType.user)
     async def purge(ctx, amount=0):
         if amount == 0:
@@ -149,7 +151,7 @@ class moderation(commands.Cog):
     @commands.cooldown(1,5, commands.BucketType.user)
     async def mute(self, ctx, member: discord.Member=None, *, reason=None):
         guild = ctx.guild
-        mutedRole = discord.utils.get(ctx.guild.roles, name="Muted")
+        mutedRole = discord.utils.get(ctx.guild.roles, name="muted")
         if member == None:
             embed = discord.Embed(description=f"<:error:995036612897554442>  {ctx.author.mention} **please mention a user to mute.**" ,color=error)
             await ctx.send(embed=embed)
@@ -162,7 +164,7 @@ class moderation(commands.Cog):
 
         await member.add_roles(mutedRole, reason=reason)
         embed=discord.Embed(description=f"<:successful:995036527220510802> {ctx.author.mention} **succesfully muted** `{member}`", color=success)
-        await ctx.message.reply(embed = embed) 
+        await ctx.send(embed = embed) 
 
 
 
@@ -170,15 +172,49 @@ class moderation(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     @commands.cooldown(1,5, commands.BucketType.user)
     async def unmute(self, ctx, member: discord.Member):
-
-        mutedRole = discord.utils.get(ctx.guild.roles, name="Muted")
+        mutedRole = discord.utils.get(ctx.guild.roles, name="muted")
         if member == None:
             embed = discord.Embed(description=f"<:error:995036612897554442>  {ctx.author.mention} **please mention a user to unmute.**" ,color=error)
             await ctx.send(embed=embed)
 
         await member.remove_roles(mutedRole)
         embed=discord.Embed(description=f"<:successful:995036527220510802> {ctx.author.mention} **succesfully unmuted** `{member}`", color=success)
-        await ctx.message.reply(embed = embed) 
+        await ctx.send(embed = embed) 
+
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    @commands.cooldown(1,5, commands.BucketType.user)
+    async def jail(self, ctx, member: discord.Member):
+        guild = ctx.guild
+        jailedRole = discord.utils.get(ctx.guild.roles, name='prisoner')
+        if member == None:
+            embed = discord.Embed(description=f"<:error:995036612897554442>  {ctx.author.mention} **please mention a user to mute.**" ,color=error)
+            await ctx.send(embed=embed)
+            return
+        if not jailedRole:
+            jailedRole = await guild.create_role(name="prisoner")
+            for channel in ctx.guild.channels:
+                await channel.set_permissions(jailedRole, speak=False, send_messages=False, read_message_history=False, read_messages=False)
+
+        await member.add_roles(jailedRole)
+        embed=discord.Embed(description=f"<:successful:995036527220510802> {ctx.author.mention} **succesfully jailed** `{member}`", color=success)
+        await ctx.send(embed = embed) 
+
+
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    @commands.cooldown(1,5, commands.BucketType.user)
+    async def unjail(self, ctx, member: discord.Member):
+        jailedRole = discord.utils.get(ctx.guild.roles, name='prisoner')
+        if member == None:
+            embed = discord.Embed(description=f"<:error:995036612897554442>  {ctx.author.mention} **please mention a user to mute.**" ,color=error)
+            await ctx.send(embed=embed)
+
+        await member.remove_roles(jailedRole)
+        embed=discord.Embed(description=f"<:successful:995036527220510802> {ctx.author.mention} **succesfully unjailed** `{member}`", color=success)
+        await ctx.send(embed = embed) 
 
 async def setup(bot):
   await bot.add_cog(moderation(bot))

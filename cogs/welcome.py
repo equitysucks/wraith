@@ -4,7 +4,7 @@ import pymongo
 
 
 color = 0x2f3136
-success = 0xA4FF00
+success = 0x44F16A
 error = 0xFF1A1A
 
 mongoClient = pymongo.MongoClient('mongodb+srv://sinful:khaleed111@cluster0.i8qcd.mongodb.net/?retryWrites=true&w=majority')
@@ -16,7 +16,7 @@ class welcome(commands.Cog):
 
 
 
-    '''@commands.group(invoke_without_command=True, aliases=["welc"])
+    @commands.group(invoke_without_command=True, aliases=["welc"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def welcome(self,ctx):
         embed = discord.Embed(title="welcome module", color=color)
@@ -68,8 +68,6 @@ class welcome(commands.Cog):
             welcmsg = welcmsg.replace("{user.tag}", str(ctx.author.discriminator))
             embed = discord.Embed(color=color,description=f'{welcmsg}')
             embed.set_author(name=f'welcome to {ctx.guild.name}')
-            embed.set_footer(text=f'{ctx.guild.member_count} members | {ctx.guild.name}')
-            embed.set_thumbnail(url=f'{ctx.author.avatar.url}')
             await ctx.send(ctx.author.mention, embed=embed)
             embed=discord.Embed(color=success,description=f'<:successful:995036527220510802> **successfuly tested the** `welcome message`')
             await ctx.send(embed=embed)
@@ -83,12 +81,27 @@ class welcome(commands.Cog):
 
 
     @commands.Cog.listener()
+    @commands.cooldown(1,5, commands.BucketType.user)
     async def on_member_join(self, ctx):
-      welcmsg = db.find_one({ "guild_id": ctx.guild.id})['welcomemessage']
-      welcchan = db.find_one({ "guild_id": ctx.guild.id})['welcomechannel']
-      embed = discord.Embed(color=color, description=welcmsg)
-      await self.client.get.channel(welcchan).send(embed=embed)'''
 
+       welcmsg = db.find_one({ "guild_id": ctx.guild.id})['welcomemessage']
+       channel = welcchan = db.find_one({ "guild_id": ctx.guild.id})['welcomechannel']
+
+       if welcmsg == None or welcmsg == "off":
+         embed = discord.Embed(color=error,description=f'<:error:995036612897554442> **no welcome** `message` **set**')
+         await ctx.send(embed=embed)
+
+       else:
+            welcmsg = welcmsg.replace("{server}", ctx.guild.name)
+            welcmsg = welcmsg.replace("{user.mention}", ctx.author.mention)
+            welcmsg = welcmsg.replace("{user.name}", ctx.author.name)
+            welcmsg = welcmsg.replace("{user}", str(ctx.author))
+            welcmsg = welcmsg.replace("{user.tag}", str(ctx.author.discriminator))
+            embed = discord.Embed(color=color,description=f'{welcmsg}')
+            
+            await channel.send(ctx.author.mention, embed=embed)
+            embed=discord.Embed(color=success,description=f'<:successful:995036527220510802> **successfuly tested the** `welcome message`')
+            await ctx.send(embed=embed)
 
 async def setup(bot):
   await bot.add_cog(welcome(bot))

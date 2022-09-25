@@ -6,6 +6,8 @@ import math
 import asyncio
 
 color = 0x2f3136
+success = 0x44F16A
+errorc = 0xFF1A1A
 
 class utility(commands.Cog):
     def __init__(self, client):
@@ -72,7 +74,7 @@ class utility(commands.Cog):
           embed.add_field(name="<a:crown:1018544927447208069> **Owner**", value=f"`{str(guild.owner)}`")
           embed.add_field(name="<a:boost:1018545023446421504> **Boosts**", value=f"`{guild.premium_subscription_count}`")
           embed.add_field(name="<:roles:1018545308868813021> **Roles**", value=f"`{len(guild.roles)}`")
-          embed.add_field(name="<:member:1017684974608064512> **Members**", value="<:online:1018545518395273328> `{}` **|** `{}`".format(online, total_users))
+          embed.add_field(name="<:member:1017684974608064512> **Members**", value="<:enabled:1021007058369261648> `{}` **|** `{}`".format(online, total_users))
           embed.add_field(name=":man_standing: **Humans**", value=f"`{total_humans}`")
           embed.set_thumbnail(url=ctx.guild.icon.url)
           embed.add_field(name="<:ClydeBot:1018545663501414501> **Bots**", value=f"`{total_bots}`")
@@ -125,13 +127,13 @@ class utility(commands.Cog):
     @commands.cooldown(1, 8, commands.BucketType.channel)
     async def addrole(self, ctx, member: discord.Member, role: discord.Role):
       await member.add_roles(role)
-      await ctx.send(embed=discord.Embed(description=f"<:successful:995036527220510802> **succesfully added** `{role.name}` **to** `{member.name}`", color=color))
+      await ctx.send(embed=discord.Embed(description=f"<:successful:995036527220510802> **succesfully added** `{role.name}` **to** `{member.name}`", color=success))
 
     @commands.command()
     @commands.cooldown(1, 8, commands.BucketType.channel)
     async def derole(self, ctx, member: discord.Member, role: discord.Role):
       await member.remove_roles(role)
-      await ctx.send(embed=discord.Embed(description=f"<:successful:995036527220510802> **succesfully removed** `{role.name}` **from** `{member.name}`", color=color))
+      await ctx.send(embed=discord.Embed(description=f"<:successful:995036527220510802> **succesfully removed** `{role.name}` **from** `{member.name}`", color=success))
 
     @commands.command(aliases=["eadd"])
     @commands.cooldown(1, 8, commands.BucketType.channel)
@@ -150,13 +152,13 @@ class utility(commands.Cog):
                     response = requests.get(url) 
                     img = response.content
                     emote = await ctx.guild.create_custom_emoji(name=name, image=img) 
-                    return await ctx.send(embed=discord.Embed(description="<:successful:995036527220510802> **succesfully added** \"%s\"" % (emote), color=color))
+                    return await ctx.send(embed=discord.Embed(description="<:successful:995036527220510802> **succesfully added** \"%s\"" % (emote), color=success))
                 except Exception:
-                    return await ctx.send(embed=discord.Embed(description=f"<:error:995036612897554442> **failed to add emoji**", color=color))
+                    return await ctx.send(embed=discord.Embed(description=f"<:error:995036612897554442> **failed to add emoji**", color=success))
             else:
-                return await ctx.send(embed=discord.Embed(description=f"<:error:995036612897554442> **invalid emoji**", color=color))
+                return await ctx.send(embed=discord.Embed(description=f"<:error:995036612897554442> **invalid emoji**", color=errorc))
         except Exception:
-            return await ctx.send(embed=discord.Embed(description=f"<:error:995036612897554442> **failed to add emoji**", color=color))
+            return await ctx.send(embed=discord.Embed(description=f"<:error:995036612897554442> **failed to add emoji**", color=errorc))
 
 
 

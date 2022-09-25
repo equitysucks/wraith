@@ -1,3 +1,4 @@
+from cgitb import text
 import discord
 from discord.ext import commands
 import os
@@ -6,7 +7,7 @@ import pymongo
 import time
 
 color = 0x2f3136
-success = 0xA4FF00
+success = 0x44F16A
 error = 0xFF1A1A
 
 class anti(commands.Cog):
@@ -159,7 +160,7 @@ class anti(commands.Cog):
         if member.bot:
             async for i in member.guild.audit_logs(
                 limit=1,
-                after=datetime.datetime.now() - datetime.timedelta(minutes = 2),
+                after=datetime.datetime.now() - datetime.timedelta(seconds = 2),
                 action=discord.AuditLogAction.bot_add):
                 if i.user.id in whitelistedUsers or i.user in whitelistedUsers:
                     return
@@ -175,22 +176,24 @@ class anti(commands.Cog):
         embed = discord.Embed(
         title = "apollo",
         color = 0x2f3136,
-        description = f"```apollo anti-nuke is one of the most reliable and safe anti-nukes created. With apollo, you can stop raiders, nukers, and people from harming your server with its key features you can view by viewing the help command and dragging apollo's role above all roles possible. To whitelist a user from apollo's anti-nuke features, you must say `;whitelist [@user]`, but be aware that apollo will take no action towards what they decide to do to and with your server.```")
-        embed.set_thumbnail(url="https://images-ext-2.discordapp.net/external/FXNH9kCHQxOWM1EmdItYQxXiCBo52Pe6wzSqrH7mt00/%3Fsize%3D1024/https/cdn.discordapp.com/icons/995022029017329725/b03a23a6114f9ac6b90bca839248ca7b.png?width=494&height=494")
+        description = f"```apollo anti-nuke is one of the most reliable and safe anti-nukes created. With apollo, you can stop raiders, nukers, and people from harming your server with its key features you can view by viewing the help command and dragging apollo's role above all roles possible. To whitelist a user therfore preventing them from being affected by apollos antinuke triggers, the user must be whitelisted and that can be done by saying ;whitelist [@user], but be aware that apollo will take no action towards what they decide to do to and with your server.```")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1021045113125871736/1023585476327788544/be7d50fb9c2d5baee38d0b32e3304391.jpg")
         await ctx.send(embed=embed)
         channel = await ctx.guild.create_text_channel('apollo-logs')
         jail = await ctx.guild.create_text_channel('jail')
-        muted = await ctx.guild.create_role(name="Muted")
+        prisoner = await ctx.guild.create_role(name="prisoner")
+        muted = await ctx.guild.create_role(name="muted")
         await channel.set_permissions(ctx.guild.default_role, send_messages=False, read_messages=False)
+        await jail.set_permissions(ctx.guild.default_role, send_messages=False, read_messages=False)
         await channel.send(embed=discord.Embed(description="<:successful:995036527220510802> **succesfully created a logging channel** `BETA`", color=success))
 
 
     @commands.command()
     @commands.cooldown(1, 8, commands.BucketType.channel)
-    async def configs(self, ctx):
+    async def config(self, ctx):
         guild = ctx.message.guild
-        embed=discord.Embed(title=f"Anti-Nuke Configuration — {ctx.guild.name}", description="\n**AntiBan**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 mins`\n\n**AntiKick**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 mins`\n\n**AntiSpam**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `Not Measurable`\n<:slowmode:1021013863044481026> **Threshold**: `Not Measurable`\n\n**AntiChannel**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 mins`\n\n**AntiRole**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 mins`\n\n**AntiWebhook**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 mins`", color=color)
-        embed.set_thumbnail(url="https://media.discordapp.net/attachments/1021045113125871736/1021066452259840000/5f19278fe4d2ce277328fa8ad0449a5e.jpg?width=494&height=494")
+        embed=discord.Embed(title=f"Anti-Nuke Configuration — {ctx.guild.name}", description="\n**AntiBan**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 seconds`\n\n**AntiKick**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 seconds`\n\n**AntiSpam**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `Not Measurable`\n<:slowmode:1021013863044481026> **Threshold**: `Not Measurable`\n\n**AntiChannel**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 seconds`\n\n**AntiRole**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 seconds`\n\n**AntiWebhook**\n<:enabled:1021007058369261648> **Enabled**\n<:y_clock:1021013226718253087> **Rate**: `1`\n<:slowmode:1021013863044481026> **Threshold**: `2 seconds`", color=color)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1021045113125871736/1023585476327788544/be7d50fb9c2d5baee38d0b32e3304391.jpg")
         await ctx.send(embed=embed)
 
 
