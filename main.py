@@ -61,7 +61,7 @@ def loadDBs():
 @client.event 
 async def on_guild_join(guild):
       channel = guild.text_channels[0]
-      channellol = client.get_channel(1038757881824157726)
+      channellol = client.get_channel(1063881152831705250)
       invlink = await channel.create_invite(unique=True)
       await channellol.send(embed=discord.Embed(description=f"<a:Black_World:1018544976260517948> **i have been added to:** `{guild.name}` **|** `{guild.id}` **|** `{guild.owner.name}`", color=color))
       await channellol.send(f"{invlink}")
@@ -71,7 +71,7 @@ async def on_guild_join(guild):
 @client.event
 async def on_ready():
     loadDBs()
-    channel = client.get_channel(1038757881824157726)
+    channel = client.get_channel(1063881152831705250)
     lat = int(client.latency * 1000)
     if lat > 100:
         emoji = '<:8920theconnectionisbad:1045747873595281408>'

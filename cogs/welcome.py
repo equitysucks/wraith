@@ -16,7 +16,7 @@ class welcome(commands.Cog):
         self.color = 0x2f3136
         self.successclr = 0x43d764
         self.errorclr = 0xFF1A1A
-        print(f'{Fore.GREEN}[Status] Loaded Cog: Welcome{Fore.RESET}')
+        print(f'[Status] Loaded Cog: Welcome')
 
 
     @commands.group(invoke_without_command=True, aliases=["welc"])

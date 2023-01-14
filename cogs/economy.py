@@ -18,7 +18,7 @@ class economy(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.av = 'https://cdn.discordapp.com/attachments/1046007816571338792/1063772884914413598/f5c9023ededc5dda88f472d0c37e7fa7.jpg'
-        print(f'{Fore.GREEN}[Status] Loaded Cog: Economy')
+        print(f'[Status] Loaded Cog: Economy')
 
 
     """@commands.Cog.listener()
