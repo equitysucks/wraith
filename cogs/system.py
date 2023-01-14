@@ -68,7 +68,7 @@ class system(commands.Cog):
 **misc**
 > **ping** `{int(self.client.latency * 1000)}ms`
 > **library** `discord.py {discord.__version__}`
-> **developers** `{self.client.get_user(995021078428663889)}`
+> **developers** `{self.client.get_user(995021078428663889)}` **&** `{self.client.get_user(844286110640766977)}`
         """)
         embed.set_author(name='wrath', icon_url=self.av)
         embed.set_thumbnail(url=self.av)
@@ -98,12 +98,12 @@ class system(commands.Cog):
               await self.client.reload_extension(f'cogs.{filename[:-3]}')
               cogs += 1
           posem = discord.Embed(colour=color)
-          posem.add_field(name="<:moderation:1017390327063134308> Cogs", value=f"```cpp\nSynced {cogs} cogs Successfully!```", inline = False)
+          posem.add_field(name="<:moderation:1017390327063134308> Cogs", value=f"```\nSynced {cogs} cogs Successfully!```", inline = False)
           await m.edit(embed=posem)
 
         except:
             failem = discord.Embed(colour=color)
-            failem.add_field(name="<:moderation:1017390327063134308> Cogs", value=f"```cpp\nFailed to sync all cogs. Check console for error.```", inline = False)
+            failem.add_field(name="<:moderation:1017390327063134308> Cogs", value=f"```\nFailed to sync all cogs. Check console for error.```", inline = False)
             await m.edit(embed=failem)
             
 

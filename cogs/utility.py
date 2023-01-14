@@ -312,9 +312,9 @@ class utility(commands.Cog):
                     embed.add_field(name="Album", value=activity.album)
                     embed.set_footer(text=f'Song started at {activity.created_at.strftime("%H:%M")}')
                     await ctx.reply(embed=embed)
-        else:
-          embed = discord.Embed(color=self.errorclr, description=f'{self.error} `{user.name}` **is not listening to anything**')
-          await ctx.reply(embed=embed)
+                else:
+                  embed = discord.Embed(color=self.errorclr, description=f'{self.error} `{user.name}` **is not listening to anything**')
+                  await ctx.reply(embed=embed)
       except Exception as e:
         print(e)
 

@@ -23,7 +23,7 @@ class help(commands.Cog):
         __**how-to use**__
         use the `emojis` <:left:1017394327728705596> `&` <:right:1017394325476352032> to navigate through the help menu to see different pages or you can do `;help [module]`, type `;modules` to see my available modules.
         __**need help ?**__
-        if help is needed in any way possible join my support [__**server**__](https://discord.gg/K7F3cGYYkr) or dm <@995021078428663889>
+        if help is needed in any way possible join my support [__**server**__](https://discord.gg/K7F3cGYYkr)
         """, color=color)
             embed1.set_footer(text=f"{len(self.client.commands)} commands")
             embed1.set_author(name="home page", icon_url=self.av)

@@ -79,7 +79,7 @@ async def on_ready():
         emoji = '<:7431theconnectionisexcellent:1020011599085449309>'
     await channel.send(embed=discord.Embed(description=f"<a:Black_World:1018544976260517948>  `wrath` **is online and running on** {emoji} `{lat} ms` ", color=color))
     #await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.competing,name=f"{len(client.guilds)} Guilds"))
-    await client.change_presence(status=discord.Status.dnd, activity=discord.Activity(type=discord.ActivityType.playing,name=f"being rewritten"))
+    await client.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.playing,name=f"Being rewritten"))
     print("wrath is online")
 
 async def main(): 
