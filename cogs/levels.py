@@ -18,9 +18,9 @@ class levels(commands.Cog):
         self.error = '<:error:995036612897554442>'
         self.success = '<:successful:995036527220510802>'
         self.color = 0x2f3136
-        self.successclr = 0x2f3136
+        self.successclr = 0x43d764
         self.errorclr = 0xFF1A1A
-        self.av = 'https://media.discordapp.net/attachments/1046007816571338792/1062785924796272650/97c434fb8916fe35c113103bbd142277.jpg'
+        self.av = 'https://cdn.discordapp.com/attachments/1046007816571338792/1063772884914413598/f5c9023ededc5dda88f472d0c37e7fa7.jpg'
         print('[Status] Loaded Cog: Levels')
 
     @commands.Cog.listener()

@@ -18,9 +18,9 @@ class utility(commands.Cog):
       self.error = '<:error:995036612897554442>'
       self.success = '<:successful:995036527220510802>'
       self.color = 0x2f3136
-      self.successclr = 0x2f3136
+      self.successclr = 0x43d764
       self.errorclr = 0xFF1A1A
-      self.av = 'https://media.discordapp.net/attachments/1046007816571338792/1062785924796272650/97c434fb8916fe35c113103bbd142277.jpg'
+      self.av = 'https://cdn.discordapp.com/attachments/1046007816571338792/1063772884914413598/f5c9023ededc5dda88f472d0c37e7fa7.jpg'
       print('[Status] Loaded Cog: Utility')
 
       
@@ -111,7 +111,7 @@ class utility(commands.Cog):
           embed.add_field(name="<a:crown:1018544927447208069> **Owner**", value=f"> `{str(guild.owner)}`", inline=False)
           embed.add_field(name="<a:boost:1018545023446421504> **Boost Count**", value=f"`{guild.premium_subscription_count}`", inline=False)
           embed.add_field(name="<:roles:1018545308868813021> **Role Count**", value=f"`{len(guild.roles)}`", inline=False)
-          embed.add_field(name="<:member:1017684974608064512> **Members**", value="`{}`".format(total_users), inline=False)
+          embed.add_field(name="<:user:1062798992397832282> **Members**", value="`{}`".format(total_users), inline=False)
           embed.set_thumbnail(url=ctx.guild.icon.url)
           embed.add_field(name="<:ClydeBot:1018545663501414501> **Bots**", value=f"`{total_bots}`", inline=False)
           embed.add_field(name="<:chanwhite:1018545884646088824> **Channels**", value=f"`{text_channels}`", inline=False)
@@ -313,7 +313,7 @@ class utility(commands.Cog):
                     embed.set_footer(text=f'Song started at {activity.created_at.strftime("%H:%M")}')
                     await ctx.reply(embed=embed)
         else:
-          embed = discord.Embed(color=self.successclr, description=f'`{user.name}` **is not listening to anything**')
+          embed = discord.Embed(color=self.errorclr, description=f'{self.error} `{user.name}` **is not listening to anything**')
           await ctx.reply(embed=embed)
       except Exception as e:
         print(e)

@@ -17,7 +17,7 @@ giver = ['Mia Khalifa', 'Mr Beast', 'khai', 'Mark Zukerberg', 'Elon Musk', 'John
 class economy(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.av = 'https://media.discordapp.net/attachments/1046007816571338792/1062785924796272650/97c434fb8916fe35c113103bbd142277.jpg'
+        self.av = 'https://cdn.discordapp.com/attachments/1046007816571338792/1063772884914413598/f5c9023ededc5dda88f472d0c37e7fa7.jpg'
         print(f'{Fore.GREEN}[Status] Loaded Cog: Economy')
 
 
