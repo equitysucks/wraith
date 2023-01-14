@@ -5,59 +5,107 @@ import requests
 import pymongo
 from discord.ext.commands import cooldown, BucketType
 import aiohttp
+import os
 
 
 color = 0x2f3136
-success = 0x44F16A
-errorc = 0xFF1A1A
-
-mongoClient = pymongo.MongoClient('mongodb+srv://sinful:khaleed111@cluster0.i8qcd.mongodb.net/?retryWrites=true&w=majority')
-db = mongoClient.get_database("apollo2").get_collection("whitelist")
 
 class system(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.error = '<:error:995036612897554442>'
+        self.success = '<:successful:995036527220510802>'
+        self.color = 0x2f3136
+        self.successclr = 0x2f3136
+        self.errorclr = 0xFF1A1A
+        self.av = 'https://media.discordapp.net/attachments/1046007816571338792/1062785924796272650/97c434fb8916fe35c113103bbd142277.jpg'
+        print('[Status] Loaded Cog: System')
+
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
-            await ctx.send(embed=discord.Embed(color=errorc, description=f'<:error:995036612897554442> {ctx.author.mention} **you are missing** `{"".join(error.missing_perms)}` **permissions**'))
+            await ctx.send(embed=discord.Embed(color=color, description=f'{self.error} {ctx.author.mention} **you are missing** `{"".join(error.missing_perms)}` **permissions**'))
         elif isinstance(error, commands.CommandOnCooldown):
-            await ctx.send(embed=discord.Embed(color=errorc, description=f'<:error:995036612897554442> {ctx.author.mention} **you are on cooldown for** `{round(error.retry_after)}` **second(s)**'))
+            await ctx.send(embed=discord.Embed(color=color, description=f'{self.error} {ctx.author.mention} **you are on cooldown for** `{round(error.retry_after)}` **second(s)**'))
 
-    @commands.command()
+    @commands.command(aliases=['p', 'lat ', 'latency'])
     @commands.cooldown(1,8, commands.BucketType.user)
     async def ping(self, ctx):
-        embed = discord.Embed(color=color, description=f'Latency is `{int(self.client.latency * 1000)}` **ms**')
-        await ctx.send(embed=embed)
-
-
-
-    @commands.command()
-    async def status(self, ctx):
-        if ctx.author.id == 995021078428663889 or ctx.author.id == 607004065729347606:
-            await ctx.send(embed=discord.Embed(description=f"<:server:1018262700561813585> Database is `{'connected' if db.find_one({ 'guild_id': ctx.guild.id })['users'] else 'disconnected'}`", color=color))
+        try:
+            lat = int(self.client.latency * 1000)
+            if lat > 100:
+                emoji = '<:8920theconnectionisbad:1045747873595281408>'
+            elif lat < 30:
+                emoji = '<:7431theconnectionisexcellent:1020011599085449309>'
+            embed = discord.Embed(color=color, description=f'{emoji} **Latency is** `{lat}` **ms**')
+            await ctx.send(embed=embed)
+        except Exception as e:
+            print(e)
 
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        channellol = self.client.get_channel(1017385638871441428)
-        haha = f'{len(guild.members)}'
-        await channellol.send(embed=discord.Embed(description=f"i have been removed from: {guild.name} — {haha} members", color=color))
+        chan = self.client.get_channel(1017385638871441428)
+        mem = f'{len(guild.members)}'
+        await chan.send(embed=discord.Embed(description=f"**i have been removed from** {guild.name} `—` {mem} **members**", color=color))
 
 
     @commands.command(aliases=["botinfo", "bi"])
     @commands.cooldown(1, 8, commands.BucketType.channel)
     async def stats(self, ctx):
-        embed = discord.Embed(color=color)
-        embed.set_author(name="apollo")
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1021045113125871736/1023585476327788544/be7d50fb9c2d5baee38d0b32e3304391.jpg")
-        embed.add_field(name="<:ClydeBot:1018545663501414501> Statistics", value=f"```asciidoc\n・Guilds: {len(self.client.guilds)}\n・Users: {len(self.client.users)}```", inline=False)
-        embed.add_field(name="<:6313questionicon:1020011959564902483> Prefix", value=f"```asciidoc\n・Default: ;\n・Alt: @apollo```", inline=False)
-        embed.add_field(name="<:spy_icons_library:1023594378448601121> Library", value="```asciidoc\n・Discord.py```", inline=False)
-        embed.add_field(name="<:6947developerbadge:1020008017950953532> Developer", value="```asciidoc\n・kh#1337```", inline=False)
-        embed.add_field(name="<:7431theconnectionisexcellent:1020011599085449309> Latency", value=f"```asciidoc\n・ {round(self.client.latency * 1000)}ms```", inline=False)
+        embed = discord.Embed(color=color, description=f"""
+
+**counts**
+> **guilds** `{len(self.client.guilds)}`
+> **users** `{len(self.client.users)}`
+> **commands** `{len(self.client.commands)}`
+
+**prefix**
+> **default** `;`
+> **alt** <@1027627566963621898>
+
+**misc**
+> **ping** `{int(self.client.latency * 1000)}ms`
+> **library** `discord.py {discord.__version__}`
+> **developers** `{self.client.get_user(995021078428663889)}`
+        """)
+        embed.set_author(name='wrath', icon_url=self.av)
+        embed.set_thumbnail(url=self.av)
         await ctx.send(embed=embed)
+
+    @commands.command(aliases=["inv"])
+    @commands.cooldown(1,5, commands.BucketType.user)
+    async def invite(self, ctx):
+        embed = discord.Embed(color=color, description=
+    f'''
+    > **Invite me** [__**here**__](https://discord.com/api/oauth2/authorize?client_id=1027627566963621898&permissions=8&scope=bot)
+    > **Join my support** [__**server**__](https://discord.gg/K7F3cGYYkr)''')
+        embed.set_author(name='wrath', icon_url=self.av)
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.is_owner()
+    async def sync(self, ctx):
+        embed = discord.Embed(colour=color)
+        embed.add_field(name="<:moderation:1017390327063134308> Cogs", value="```cpp\nSyncing...```", inline = False)
+        m = await ctx.reply(embed=embed)
+        cogs = 0
+
+        try:
+          for filename in os.listdir('./cogs'):
+            if filename.endswith('.py') and not filename.startswith('System'):
+              await self.client.reload_extension(f'cogs.{filename[:-3]}')
+              cogs += 1
+          posem = discord.Embed(colour=color)
+          posem.add_field(name="<:moderation:1017390327063134308> Cogs", value=f"```cpp\nSynced {cogs} cogs Successfully!```", inline = False)
+          await m.edit(embed=posem)
+
+        except:
+            failem = discord.Embed(colour=color)
+            failem.add_field(name="<:moderation:1017390327063134308> Cogs", value=f"```cpp\nFailed to sync all cogs. Check console for error.```", inline = False)
+            await m.edit(embed=failem)
+            
 
 
 async def setup(bot):
