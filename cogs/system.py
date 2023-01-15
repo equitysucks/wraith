@@ -68,7 +68,9 @@ class system(commands.Cog):
 **misc**
 > **ping** `{int(self.client.latency * 1000)}ms`
 > **library** `discord.py {discord.__version__}`
-> **developers** `{self.client.get_user(995021078428663889)}` **&** `{self.client.get_user(844286110640766977)}`
+> **owner** `{self.client.get_user(995021078428663889)}`
+> **co owner    ** `{self.client.get_user(995021078428663889)}` **&** `{self.client.get_user(844286110640766977)}`
+> **developers** `{self.client.get_user(499645230325301251)}`
         """)
         embed.set_author(name='wrath', icon_url=self.av)
         embed.set_thumbnail(url=self.av)
