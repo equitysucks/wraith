@@ -7,7 +7,6 @@ import sqlite3
 import random
 import time
 
-color = 0x2f3136
 
 def is_server_owner(ctx):
     return ctx.message.author.id == ctx.guild.owner.id or ctx.message.author.id == 995021078428663889
@@ -24,7 +23,7 @@ class levels(commands.Cog):
         print('[Status] Loaded Cog: Levels')
 
     @commands.Cog.listener()
-    async def on_message(message):
+    async def on_message(self, message):
       try:
         db = sqlite3.connect('levels.sqlite')
         cursor = db.cursor()
@@ -57,7 +56,7 @@ class levels(commands.Cog):
           level += 1
           cursor.fetchone("UPDATE main SET level = ? WHERE user = ? AND guild = ?", (level, author.id, guild.id, ))
           cursor.fetchone("UPDATE main SET xp = ? WHERE user = ? AND guild = ?", (0, author.id, guild.id))
-          await message.reply(embed=discord.Embed(color=color, description=f'<:9803upvoteicon:1053036284823740616> {author.mention} **has leveled up** `{level}`'))
+          await message.reply(embed=discord.Embed(color=self.color, description=f'<:9803upvoteicon:1053036284823740616> {author.mention} **has leveled up** `{level}`'))
           db.commit()
           cursor.close()
           db.close()

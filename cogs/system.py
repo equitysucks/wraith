@@ -8,8 +8,6 @@ import aiohttp
 import os
 
 
-color = 0x2f3136
-
 class system(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -25,9 +23,9 @@ class system(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
-            await ctx.send(embed=discord.Embed(color=color, description=f'{self.error} {ctx.author.mention} **you are missing** `{"".join(error.missing_perms)}` **permissions**'))
+            await ctx.send(embed=discord.Embed(color=self.errorclr, description=f'{self.error} {ctx.author.mention} **you are missing** `{"".join(error.missing_perms)}` **permissions**'))
         elif isinstance(error, commands.CommandOnCooldown):
-            await ctx.send(embed=discord.Embed(color=color, description=f'{self.error} {ctx.author.mention} **you are on cooldown for** `{round(error.retry_after)}` **second(s)**'))
+            await ctx.send(embed=discord.Embed(color=self.errorclr, description=f'{self.error} {ctx.author.mention} **you are on cooldown for** `{round(error.retry_after)}` **second(s)**'))
 
     @commands.command(aliases=['p', 'lat ', 'latency'])
     @commands.cooldown(1,8, commands.BucketType.user)
@@ -38,7 +36,7 @@ class system(commands.Cog):
                 emoji = '<:8920theconnectionisbad:1045747873595281408>'
             elif lat < 30:
                 emoji = '<:7431theconnectionisexcellent:1020011599085449309>'
-            embed = discord.Embed(color=color, description=f'{emoji} **Latency is** `{lat}` **ms**')
+            embed = discord.Embed(color=self.color, description=f'{emoji} **Latency is** `{lat}` **ms**')
             await ctx.send(embed=embed)
         except Exception as e:
             print(e)
@@ -48,13 +46,13 @@ class system(commands.Cog):
     async def on_guild_remove(self, guild):
         chan = self.client.get_channel(1017385638871441428)
         mem = f'{len(guild.members)}'
-        await chan.send(embed=discord.Embed(description=f"**i have been removed from** {guild.name} `—` {mem} **members**", color=color))
+        await chan.send(embed=discord.Embed(description=f"**i have been removed from** {guild.name} `—` {mem} **members**", color=self.color))
 
 
     @commands.command(aliases=["botinfo", "bi"])
     @commands.cooldown(1, 8, commands.BucketType.channel)
     async def stats(self, ctx):
-        embed = discord.Embed(color=color, description=f"""
+        embed = discord.Embed(color=self.color, description=f"""
 
 **counts**
 > **guilds** `{len(self.client.guilds)}`
@@ -79,7 +77,7 @@ class system(commands.Cog):
     @commands.command(aliases=["inv"])
     @commands.cooldown(1,5, commands.BucketType.user)
     async def invite(self, ctx):
-        embed = discord.Embed(color=color, description=
+        embed = discord.Embed(color=self.color, description=
     f'''
     > **Invite me** [__**here**__](https://discord.com/api/oauth2/authorize?client_id=1027627566963621898&permissions=8&scope=bot)
     > **Join my support** [__**server**__](https://discord.gg/K7F3cGYYkr)''')
@@ -89,7 +87,7 @@ class system(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def sync(self, ctx):
-        embed = discord.Embed(colour=color)
+        embed = discord.Embed(colour=self.color)
         embed.add_field(name="<:moderation:1017390327063134308> Cogs", value="```cpp\nSyncing...```", inline = False)
         m = await ctx.reply(embed=embed)
         cogs = 0
@@ -99,12 +97,12 @@ class system(commands.Cog):
             if filename.endswith('.py') and not filename.startswith('System'):
               await self.client.reload_extension(f'cogs.{filename[:-3]}')
               cogs += 1
-          posem = discord.Embed(colour=color)
+          posem = discord.Embed(colour=self.color)
           posem.add_field(name="<:moderation:1017390327063134308> Cogs", value=f"```\nSynced {cogs} cogs Successfully!```", inline = False)
           await m.edit(embed=posem)
 
         except:
-            failem = discord.Embed(colour=color)
+            failem = discord.Embed(colour=self.color)
             failem.add_field(name="<:moderation:1017390327063134308> Cogs", value=f"```\nFailed to sync all cogs. Check console for error.```", inline = False)
             await m.edit(embed=failem)
             
